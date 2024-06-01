@@ -1,18 +1,28 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const slice = createSlice({
   name: 'contacts',
-  initialState: {items: []},
-  reducers:{
-    add: (state, action) =>{
-      state.items.push(action.payload)
+  initialState: { items: [] },
+  reducers: {
+    add: {
+      reducer: (state, action) => {
+        state.items.push(action.payload);
+      },
+      prepare: (info) => {
+        return {
+          payload: {
+            id: crypto.randomUUID(),
+            info,
+          },
+        };
+      },
     },
-    delete: (state, action) =>{
-      state.items.filter(item => item !== action.payload.id )
-    }
-  }
-})
+    remove: (state, action) => {
+      state.items = state.items.filter(item => item.id !== action.payload);
+    },
+  },
+});
 
+export const { add, remove } = slice.actions;
+export default slice.reducer;
 
-export default slice.reducer
-export const {add, delete} = slice.actions
