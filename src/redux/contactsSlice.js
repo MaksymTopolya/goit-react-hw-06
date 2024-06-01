@@ -6,7 +6,7 @@ const slice = createSlice({
   reducers: {
     add: {
       reducer: (state, action) => {
-        state.items.push(action.payload);
+        state.items = [action.payload, ...state.items];
       },
       prepare: (info) => {
         return {
